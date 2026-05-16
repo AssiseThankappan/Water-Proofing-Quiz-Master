@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaintVita Quiz</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; padding: 20px; color: #333; }
+        .container { max-width: 650px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; }
+        .hidden { display: none !important; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9em; }
+        .form-group input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 6px; }
+        button { background: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 1em; font-weight: bold; width: 100%; transition: 0.2s;}
+        button:hover { background: #0056b3; }
+        .question { margin-bottom: 25px; border: 1px solid #f0f0f0; padding: 15px; border-radius: 8px; }
+        .options label { display: block; margin-bottom: 8px; padding: 12px; background: #f8f9fa; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
+        .options label:hover { background: #e2e6ea; }
+        .options input { margin-right: 12px; transform: scale(1.2); }
+        .correct { border-color: #28a745 !important; background: #d4edda !important; color: #155724; font-weight: bold; }
+        .incorrect { border-color: #dc3545 !important; background: #f8d7da !important; color: #721c24; }
+        .explanation { margin-top: 15px; font-size: 0.9em; color: #31708f; background: #d9edf7; padding: 15px; border-radius: 6px; border-left: 5px solid #31708f; }
+        #timer { font-size: 1.2em; font-weight: bold; color: #dc3545; text-align: right; margin-bottom: -30px; }
+        .loader { text-align: center; font-style: italic; color: #666; margin: 20px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="loader" class="loader">Fetching data from Google Sheets...</div>
+
+    <!-- Registration -->
+    <div id="registrationForm" class="hidden">
+        <h2>Welcome to PaintVita</h2>
+        <div class="form-group"><label>Name</label><input type="text" id="name" required></div>
+        <div class="form-group"><label>Official Email</label><input type="email" id="email" required></div>
+        <div class="form-group"><label>Employee ID</label><input type="text" id="empId" required></div>
+        <div class="form-group"><label>EC Store</label><input type="text" id="ecStore" required></div>
+        <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quizSection" class="hidden">
+        <div id="timer">Time: 0s</div>
+        <h2>Quiz Instructions: Select the best option.</h2>
+        <div id="questionsContainer"></div>
+        <button onclick="submitQuiz()" id="submitBtn">Submit Quiz & View Results</button>
+    </div>
+
+    <!-- Results -->
+    <div id="resultSection" class="hidden">
+        <h2>Quiz Completed!</h2>
+        <p id="scoreDisplay" style="font-size: 1.2em; text-align: center; padding: 20px; background: #f4f4f4; border-radius: 8px;"></p>
+        <br>
+        <button onclick="window.location.href='leaderboard.html'" style="background: #28a745;">View Leaderboard</button>
+    </div>
+</div>
+
+<script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySBiTn1HngO8asovRHlM54WGLxCWv0V0IfHylyF-15uI0uy98MSlTCKq4kUtNVlfs21g/exec';
+    let questionsData = [];
+    let startTime, timerInterval, timeTaken = 0;
+
+    window.onload = () => {
+        fetch(SCRIPT_URL + '?action=getQuestions')
+            .then(res => res.json())
+            .then(data => {
+                questionsData = data;
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('registrationForm').classList.remove('hidden');
+            }).catch(() => { document.getElementById('loader').innerText = "Failed to load quiz. Check the URL."; });
+    };
+
+    function startQuiz() {
+        const ids = ['name', 'email', 'empId', 'ecStore'];
+        for(let id of ids) { if(!document.getElementById(id).value.trim()) return alert("Please fill all details"); }
+        
+        document.getElementById('registrationForm').classList.add('hidden');
+        document.getElementById('quizSection').classList.remove('hidden');
+        renderQuestions();
+
+        startTime = Date.now();
+        timerInterval = setInterval(() => {
+            timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('timer').innerText = `Time: ${timeTaken}s`;
+        }, 1000);
+    }
+
+    function renderQuestions() {
+        const container = document.getElementById('questionsContainer');
+        questionsData.forEach((q, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question';
+            qDiv.innerHTML = `<p style="font-weight: 600; font-size: 1.1em;">${index + 1}. ${q.text}</p>`;
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            for (const [key, value] of Object.entries(q.options)) {
+                if (value) {
+                    optionsDiv.innerHTML += `
+                        <label id="label_${index}_${key.replace(' ', '')}">
+                            <input type="radio" name="q${index}" value="${key}"> ${key}: ${value}
+                        </label>`;
+                }
+            }
+            qDiv.appendChild(optionsDiv);
+            
+            const explDiv = document.createElement('div');
+            explDiv.id = `expl_${index}`;
+            explDiv.className = 'explanation hidden';
+            qDiv.appendChild(explDiv);
+            container.appendChild(qDiv);
+        });
+    }
+
+    function submitQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById('submitBtn').innerText = 'Saving Results...';
+        document.getElementById('submitBtn').disabled = true;
+
+        let score = 0;
+        
+        // Compute and highlight
+        questionsData.forEach((q, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            const selectedVal = selected ? selected.value : null;
+            
+            for (const key of Object.keys(q.options)) {
+                if(!q.options[key]) continue;
+                const label = document.getElementById(`label_${index}_${key.replace(' ', '')}`);
+                const rdo = label.querySelector('input');
+                rdo.disabled = true; // disable further changes
+                
+                if (key === q.correct) label.classList.add('correct');
+                else if (selectedVal === key) label.classList.add('incorrect');
+            }
+
+            if (selectedVal === q.correct) score += Number(q.marks);
+
+            const explDiv = document.getElementById(`expl_${index}`);
+            let explHtml = `<strong>Correct Answer:</strong> ${q.correct}`;
+            if (q.explanation) explHtml += `<br><strong>Explanation:</strong> ${q.explanation}`;
+            explDiv.innerHTML = explHtml;
+            explDiv.classList.remove('hidden');
+        });
+
+        const payload = {
+            action: 'submitQuiz',
+            name: document.getElementById('name').value, email: document.getElementById('email').value,
+            empId: document.getElementById('empId').value, ecStore: document.getElementById('ecStore').value,
+            score: score, timeTaken: timeTaken
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        }).then(res => res.json())
+        .then(() => {
+            document.getElementById('submitBtn').classList.add('hidden');
+            document.getElementById('scoreDisplay').innerHTML = `You scored <strong>${score}</strong> in <strong>${timeTaken} seconds</strong>.`;
+            document.getElementById('resultSection').classList.remove('hidden');
+            window.scrollTo(0, 0); // scroll up to show completion
+        }).catch(err => alert("Error saving results."));
+    }
+</script>
+</body>
+</html>
