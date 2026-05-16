@@ -3,270 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ Quiz zone ⚡</title>
+    <title>🎸 PaintVita Arcade 🎸</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap');
-        
-        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
-        
-        body { 
-            background: linear-gradient(135deg, #0f0c20 0%, #15102a 40%, #03001e 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* Funky Floating Geometry backgrounds */
-        body::before { content: "🎨"; position: absolute; font-size: 10rem; top: -5%; left: -5%; opacity: 0.15; transform: rotate(-20deg); }
-        body::after { content: "🚀"; position: absolute; font-size: 10rem; bottom: -5%; right: -5%; opacity: 0.15; transform: rotate(15deg); }
-
-        .container { 
-            width: 100%;
-            max-width: 600px; 
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 40px 30px; 
-            border-radius: 24px; 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2); 
-            color: #fff;
-            position: relative;
-        }
-
-        h2 { 
-            font-family: 'Fredoka One', cursive;
-            font-size: 2.2rem;
-            text-align: center;
-            margin-top: 0;
-            background: linear-gradient(45deg, #ff007f, #39ff14, #00d2ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0px 0px 15px rgba(255, 0, 127, 0.3);
-            letter-spacing: 1px;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@500;700&display=swap');
+        * { box-sizing: border-box; }
+        body { background-color: #7928ca; background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 40px); font-family: 'Space Grotesk', sans-serif; color: #000; min-height: 100vh; margin: 0; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .funky-panel { background: #fff; border: 5px solid #000; border-radius: 16px; box-shadow: 12px 12px 0px #000; padding: 35px; position: relative; }
+        .dashboard { display: flex; width: 100%; max-width: 1050px; gap: 40px; }
+        @media(max-width: 768px) { .dashboard { flex-direction: column; } }
+        .sidebar { flex: 0 0 260px; display: flex; flex-direction: column; gap: 12px; background: #f4f4f4; }
+        .main-area { flex: 1; }
         .hidden { display: none !important; }
-
-        /* Form Inputs */
-        .form-group { margin-bottom: 20px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: #ff007f; letter-spacing: 0.5px;}
-        .form-group input { 
-            width: 100%; padding: 14px; background: rgba(0,0,0,0.3); border: 2px solid #555; 
-            border-radius: 12px; color: #fff; font-size: 1rem; transition: 0.3s;
-        }
-        .form-group input:focus { border-color: #39ff14; outline: none; box-shadow: 0 0 10px rgba(57, 255, 20, 0.5); }
-
-        /* Buttons */
-        button { 
-            background: linear-gradient(45deg, #ff007f, #7928ca);
-            color: white; padding: 15px 25px; border: none; border-radius: 14px; 
-            cursor: pointer; font-size: 1.2rem; font-weight: bold; width: 100%; 
-            box-shadow: 0 5px 15px rgba(255, 0, 127, 0.4); transform: translateY(0); transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 0, 127, 0.6); }
-        button:active { transform: translateY(1px); }
-
-        /* Options Mapping */
-        .options { margin-top: 25px; }
-        .option-item { 
-            display: block; margin-bottom: 15px; padding: 16px; background: rgba(255,255,255,0.06); 
-            border-radius: 14px; cursor: pointer; border: 2px solid rgba(255,255,255,0.15); transition: 0.2s ease;
-        }
-        .option-item:hover { background: rgba(255,255,255,0.15); border-color: #00d2ff; }
+        h2 { font-family: 'Bangers', cursive; text-align: center; font-size: 3.5rem; margin-top: 0; color: #39ff14; -webkit-text-stroke: 2px #000; text-shadow: 6px 6px 0px #ff007f; letter-spacing: 3px; }
+        .sidebar h3 { font-family: 'Bangers', cursive; font-size: 2.2rem; color: #00d2ff; text-align: center; -webkit-text-stroke: 1.5px #000; text-shadow: 4px 4px 0px #000; margin-top: 0; letter-spacing: 2px; }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 8px; font-family: 'Bangers', cursive; font-size: 1.6rem; color: #ff007f; letter-spacing: 1px; -webkit-text-stroke: 1px #000;}
+        .form-group input { width: 100%; padding: 15px; border: 4px solid #000; border-radius: 10px; font-family: 'Space Grotesk'; font-size: 1.1rem; box-shadow: 5px 5px 0px #000; font-weight: bold; transition: 0.2s; }
+        .form-group input:focus { outline: none; background: #fff800; transform: translate(-2px, -2px); box-shadow: 7px 7px 0px #000; }
+        button.action-btn { background: #ff007f; color: #fff; font-family: 'Bangers', cursive; font-size: 2rem; letter-spacing: 2px; padding: 15px 30px; border: 4px solid #000; border-radius: 12px; box-shadow: 8px 8px 0px #000; cursor: pointer; transition: all 0.1s; width: 100%; -webkit-text-stroke: 1px #000; text-transform: uppercase; margin-top: 20px; }
+        button.action-btn:hover { background: #00d2ff; }
+        button.action-btn:active:not(:disabled) { transform: translate(8px, 8px); box-shadow: 0px 0px 0px #000; }
+        .module-btn { padding: 14px; border: 3px solid #000; border-radius: 10px; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; justify-content: space-between; box-shadow: 4px 4px 0px #000; background: #fff; transition: all 0.1s; }
+        .module-btn.locked { background: #ddd; box-shadow: none; transform: translate(4px, 4px); pointer-events: none; color: #888; border-color: #888;}
+        .module-btn.unlocked { background: #39ff14; animation: pulseGlow 1.5s infinite alternate; }
+        .module-btn.completed { background: #00d2ff; }
+        .module-btn.active { background: #ff007f; color: #fff; text-shadow: 1px 1px 0 #000; }
+        @keyframes pulseGlow { from { transform: scale(1); } to { transform: scale(1.02); box-shadow: 6px 6px 0px #000; } }
+        .option-item { display: block; margin-bottom: 15px; padding: 18px; border: 4px solid #000; border-radius: 12px; background: #fff; box-shadow: 6px 6px 0px #000; cursor: pointer; font-weight: bold; font-size: 1.15rem; transition: all 0.1s; }
         .option-item input { display: none; }
-
-        /* Real-time State Highlights */
-        .option-item.correct-pick { border-color: #39ff14 !important; background: rgba(57, 255, 20, 0.2) !important; color: #39ff14; font-weight: bold; box-shadow: 0 0 15px rgba(57,255,20,0.3); }
-        .option-item.incorrect-pick { border-color: #ff0055 !important; background: rgba(255, 0, 85, 0.2) !important; color: #ff0055; box-shadow: 0 0 15px rgba(255,0,85,0.3); }
-        .option-item.disabled { pointer-events: none; opacity: 0.6; }
-        .option-item.correct-pick.disabled { opacity: 1; }
-
-        /* Interactive Elements */
-        .explanation { 
-            margin-top: 20px; font-size: 1rem; color: #fff; background: rgba(0, 210, 255, 0.15); 
-            padding: 18px; border-radius: 12px; border-left: 6px solid #00d2ff; text-align: left;
-            animation: popIn 0.4s ease forwards;
-        }
-        @keyframes popIn { from { opacity:0; transform: scale(0.95); } to { opacity:1; transform: scale(1); } }
-
-        #timer-bar { display: flex; justify-content: space-between; font-weight: bold; color: #39ff14; margin-bottom: 20px; font-size: 1.1rem; }
-        .progress { background: rgba(255,255,255,0.1); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 25px; }
-        .progress-inner { height: 100%; background: linear-gradient(90deg, #ff007f, #00d2ff); width: 0%; transition: width 0.4s ease; }
-        
-        .loader { text-align: center; font-size: 1.5rem; font-weight: bold; color: #00d2ff; text-shadow: 0 0 10px rgba(0,210,255,0.5); }
+        .option-item:hover:not(.disabled) { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px #000; background: #e0f7fa; }
+        .option-item.correct-pick { background: #39ff14; box-shadow: 0 0 0 #000; transform: translate(6px, 6px); border-color: #000; }
+        .option-item.incorrect-pick { background: #ff0055; color: #fff; box-shadow: 0 0 0 #000; transform: translate(6px, 6px); }
+        .option-item.disabled { pointer-events: none; }
+        .explanation { margin-top: 25px; background: #fff800; border: 4px dashed #000; padding: 20px; font-weight: bold; border-radius: 12px; box-shadow: 6px 6px 0px #000; font-size: 1.1rem; }
+        .metrics-bar { display: flex; justify-content: space-between; font-family: 'Bangers', cursive; font-size: 1.8rem; color: #000; margin-bottom: 25px; letter-spacing: 1px;}
+        .badge { background: #000; color: #fff; padding: 5px 15px; border-radius: 8px; border: 3px solid #00d2ff; }
+        .loader { font-family: 'Bangers'; text-align: center; font-size: 3rem; color: #fff; -webkit-text-stroke: 2px #000; text-shadow: 5px 5px 0px #ff007f; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="loader" class="loader">🌀 LOADING THE FUNK...</div>
+<div id="loader" class="loader">🎸 TUNING THE GUITARS...</div>
 
-    <!-- Step 1: Funky Onboarding Registration -->
-    <div id="registrationForm" class="hidden">
-        <h2>🎉 Challenge</h2>
-        <p style="text-align: center; opacity: 0.8; margin-bottom: 30px;">Lock and load your details to enter the arena!</p>
-        <div class="form-group"><label>Name</label><input type="text" id="name" required placeholder="Rockstar Name"></div>
-        <div class="form-group"><label>Official Email</label><input type="email" id="email" required placeholder="name@company.com"></div>
-        <div class="form-group"><label>Employee ID</label><input type="text" id="empId" required placeholder="EMP1234"></div>
-        <div class="form-group"><label>EC Store</label><input type="text" id="ecStore" required placeholder="Hub Location"></div>
-        <button onclick="startQuiz()">LET'S PLAY! 🚀</button>
-    </div>
+<div id="registrationScreen" class="funky-panel hidden" style="width: 100%; max-width: 550px;">
+    <h2>PLAYER 1 START</h2>
+    <p style="text-align: center; font-weight: bold; font-size: 1.2rem; margin-bottom: 30px;">Insert credentials to join the arcade.</p>
+    <div class="form-group"><label>Name</label><input type="text" id="name" required></div>
+    <div class="form-group"><label>Official Email</label><input type="email" id="email" required></div>
+    <div class="form-group"><label>Employee ID</label><input type="text" id="empId" required></div>
+    <div class="form-group"><label>EC Store</label><input type="text" id="ecStore" required></div>
+    <button class="action-btn" onclick="registerUser()">INSERT COIN 🪙</button>
+</div>
 
-    <!-- Step 2: Screen-by-Screen Single Question Interface -->
-    <div id="quizSection" class="hidden">
-        <div id="timer-bar">
-            <span id="questionNum">Question 1/X</span>
-            <span id="timer">⏱️ 0s</span>
+<div id="dashboardScreen" class="dashboard hidden">
+    <div class="sidebar funky-panel" id="sidebarContainer"></div>
+
+    <div class="main-area funky-panel">
+        <div id="moduleIntro">
+            <h2 id="moduleTitle">STAGE READY</h2>
+            <div style="text-align:center; margin-bottom: 30px; font-size: 1.3rem; font-weight: bold; background: #eee; padding: 15px; border: 4px solid #000; border-radius: 12px;">
+                TOTAL SCORE: <span style="color:#ff007f; font-size: 1.8rem; font-family: 'Bangers';" id="cumulScoreDisplay">0</span> <br>
+                TOTAL TIME: <span style="color:#00d2ff; font-size: 1.8rem; font-family: 'Bangers';" id="cumulTimeDisplay">0s</span>
+            </div>
+            <button class="action-btn" onclick="startActiveModule()">FIGHT! 💥</button>
         </div>
-        <div class="progress"><div id="progressInner" class="progress-inner"></div></div>
-        
-        <div id="singleQuestionContainer"></div>
-        
-        <div id="actionArea" style="margin-top:25px;">
-            <!-- Appears dynamically after answering -->
-            <button id="nextBtn" class="hidden" onclick="nextQuestion()">NEXT QUESTION ➡️</button>
-        </div>
-    </div>
 
-    <!-- Step 3: Flashy End Splash -->
-    <div id="resultSection" class="hidden">
-        <h2>😎 LEVEL COMPLETE!</h2>
-        <p id="scoreDisplay" style="font-size: 1.4rem; text-align: center; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 16px; margin: 25px 0; border: 1px solid rgba(255,255,255,0.2);"></p>
-        <button onclick="window.location.href='leaderboard.html'" style="background: linear-gradient(45deg, #39ff14, #00d2ff); color:#000;">VIEW LEADERBOARD 🏆</button>
+        <div id="quizView" class="hidden">
+            <div class="metrics-bar">
+                <span id="questionNumTracker" class="badge">Q 1/5</span>
+                <span id="moduleTimer" class="badge" style="border-color: #ff007f;">⏱️ 0s</span>
+            </div>
+            <div id="questionContainer"></div>
+            <button id="nextBtn" class="action-btn hidden" onclick="nextQuestion()">NEXT ➡️</button>
+        </div>
+
+        <div id="syncView" class="hidden" style="text-align:center;">
+            <h2>STAGE CLEARED!</h2>
+            <p id="syncMsg" style="font-weight: bold; font-size: 1.4rem; background: #fff800; padding: 15px; border: 4px solid #000; border-radius: 12px; display: inline-block;">Saving to cartridge...</p><br>
+            <button id="continueBtn" class="action-btn hidden" onclick="returnToDashboard()">NEXT STAGE 🚀</button>
+            <button id="finishBtn" class="action-btn hidden" onclick="window.location.href='leaderboard.html'">VIEW HALL OF FAME 🏆</button>
+        </div>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySBiTn1HngO8asovRHlM54WGLxCWv0V0IfHylyF-15uI0uy98MSlTCKq4kUtNVlfs21g/exec';
-    let questionsData = [];
-    let currentIdx = 0;
-    let score = 0;
-    let startTime, timerInterval, timeTaken = 0;
+    const TOTAL_MODULES = 12;
+    let allQuestions = [], currentModuleQuestions = [], activeQIdx = 0;
+    let timerInterval, sessionStartTime, activeModuleTime = 0, currentModuleScore = 0;
+
+    let state = { user: { name: '', email: '', empId: '', ecStore: '' }, highestUnlocked: 1, activeModule: 1, moduleHistory: {} };
 
     window.onload = () => {
-        fetch(SCRIPT_URL + '?action=getQuestions')
-            .then(res => res.json())
-            .then(data => {
-                questionsData = data;
-                document.getElementById('loader').classList.add('hidden');
-                document.getElementById('registrationForm').classList.remove('hidden');
-            }).catch(() => { document.getElementById('loader').innerText = "❌ Uh-Oh. Backend connection failed."; });
+        fetch(SCRIPT_URL + '?action=getQuestions').then(res => res.json()).then(data => {
+            allQuestions = data;
+            document.getElementById('loader').classList.add('hidden');
+            const savedState = localStorage.getItem('paintVitaState');
+            if (savedState) {
+                state = JSON.parse(savedState);
+                if(!state.moduleHistory) state.moduleHistory = {}; 
+                state.activeModule = state.highestUnlocked <= TOTAL_MODULES ? state.highestUnlocked : TOTAL_MODULES;
+                loadDashboard();
+            } else { document.getElementById('registrationScreen').classList.remove('hidden'); }
+        });
     };
 
-    function startQuiz() {
+    function registerUser() {
         const ids = ['name', 'email', 'empId', 'ecStore'];
-        for(let id of ids) { if(!document.getElementById(id).value.trim()) return alert("Fill out all the fields to grab your spot!"); }
-        
-        document.getElementById('registrationForm').classList.add('hidden');
-        document.getElementById('quizSection').classList.remove('hidden');
-        
-        startTime = Date.now();
-        timerInterval = setInterval(() => {
-            timeTaken = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById('timer').innerText = `⏱️ ${timeTaken}s`;
-        }, 1000);
-
-        showQuestion(currentIdx);
+        for(let id of ids) { if(!document.getElementById(id).value.trim()) return alert("Fill all details!"); }
+        state.user = { name: document.getElementById('name').value, email: document.getElementById('email').value, empId: document.getElementById('empId').value, ecStore: document.getElementById('ecStore').value };
+        localStorage.setItem('paintVitaState', JSON.stringify(state));
+        document.getElementById('registrationScreen').classList.add('hidden');
+        loadDashboard();
     }
 
-    function showQuestion(idx) {
+    function calculateTotals() {
+        let ts = 0, tt = 0;
+        for(let k in state.moduleHistory) { ts += state.moduleHistory[k].score; tt += state.moduleHistory[k].time; }
+        return { ts, tt };
+    }
+
+    function loadDashboard() {
+        document.getElementById('dashboardScreen').classList.remove('hidden');
+        document.getElementById('moduleIntro').classList.remove('hidden');
+        document.getElementById('quizView').classList.add('hidden');
+        document.getElementById('syncView').classList.add('hidden');
+        
+        const totals = calculateTotals();
+        document.getElementById('cumulScoreDisplay').innerText = totals.ts;
+        document.getElementById('cumulTimeDisplay').innerText = totals.tt + 's';
+        
+        if(state.highestUnlocked > TOTAL_MODULES) {
+            document.getElementById('moduleTitle').innerText = "GAME BEATEN!";
+            document.querySelector('#moduleIntro button').style.display = 'none';
+        } else {
+            document.getElementById('moduleTitle').innerText = `STAGE ${state.activeModule}`;
+            document.querySelector('#moduleIntro button').style.display = 'block';
+        }
+        renderSidebar();
+    }
+
+    function renderSidebar() {
+        const container = document.getElementById('sidebarContainer');
+        container.innerHTML = `<h3>MISSIONS</h3>`;
+        for(let i = 1; i <= TOTAL_MODULES; i++) {
+            const btn = document.createElement('div');
+            btn.className = `module-btn ${i < state.highestUnlocked ? 'completed' : i === state.highestUnlocked ? 'unlocked' : 'locked'}`;
+            if(i === state.activeModule && i <= state.highestUnlocked) btn.classList.add('active');
+            let icon = '🔒'; if(i < state.highestUnlocked) icon = '✔️'; else if(i === state.highestUnlocked) icon = '🔥';
+            btn.innerHTML = `<span>Module ${i}</span> <span>${icon}</span>`;
+            container.appendChild(btn);
+        }
+    }
+
+    function startActiveModule() {
+        currentModuleQuestions = allQuestions.filter(q => q.module === state.activeModule);
+        if(currentModuleQuestions.length === 0) return alert("Error: No questions found for this module!");
+
+        activeQIdx = 0; activeModuleTime = 0; currentModuleScore = 0;
+        document.getElementById('moduleIntro').classList.add('hidden');
+        document.getElementById('quizView').classList.remove('hidden');
+        
+        sessionStartTime = Date.now();
+        timerInterval = setInterval(() => {
+            activeModuleTime = Math.floor((Date.now() - sessionStartTime) / 1000);
+            document.getElementById('moduleTimer').innerText = `⏱️ ${activeModuleTime}s`;
+        }, 1000);
+        showQuestion();
+    }
+
+    function showQuestion() {
         document.getElementById('nextBtn').classList.add('hidden');
+        document.getElementById('questionNumTracker').innerText = `Q ${activeQIdx + 1}/${currentModuleQuestions.length}`;
+        const q = currentModuleQuestions[activeQIdx];
         
-        // Update Meta Metrics
-        document.getElementById('questionNum').innerText = `Question ${idx + 1} of ${questionsData.length}`;
-        document.getElementById('progressInner').style.width = `${((idx) / questionsData.length) * 100}%`;
-        
-        const container = document.getElementById('singleQuestionContainer');
-        const q = questionsData[idx];
-        
-        let optionsHtml = '';
+        let opts = '';
         for (const [key, value] of Object.entries(q.options)) {
-            if (value) {
-                optionsHtml += `
-                    <label class="option-item" id="label_${key.replace(' ', '')}" onclick="selectAnswer('${key}')">
-                        <input type="radio" name="quizOpt" value="${key}"> 
-                        <strong>${key.replace('Option ', '')}:</strong> ${value}
-                    </label>
-                `;
-            }
+            if (value) opts += `<label class="option-item" id="label_${key.replace(' ', '')}" onclick="selectAnswer('${key}')"><input type="radio" name="quizOpt" value="${key}"> <strong>${key.replace('Option ', '')}:</strong> ${value}</label>`;
         }
 
-        container.innerHTML = `
-            <p style="font-size: 1.3rem; font-weight: 700; line-height: 1.5; margin-bottom: 20px;">${q.text}</p>
-            <div class="options">${optionsHtml}</div>
+        document.getElementById('questionContainer').innerHTML = `
+            <p style="font-size: 1.4rem; font-weight: 900; margin-bottom: 25px;">${q.text}</p>
+            <div>${opts}</div>
             <div id="liveFeedback" class="explanation hidden"></div>
         `;
     }
 
     function selectAnswer(chosenKey) {
-        const q = questionsData[currentIdx];
-        
-        // Freeze options right away
-        const items = document.querySelectorAll('.option-item');
-        items.forEach(el => el.classList.add('disabled'));
+        const q = currentModuleQuestions[activeQIdx];
+        document.querySelectorAll('.option-item').forEach(el => el.classList.add('disabled'));
         
         const chosenLabel = document.getElementById(`label_${chosenKey.replace(' ', '')}`);
         const correctLabel = document.getElementById(`label_${q.correct.replace(' ', '')}`);
         
-        // Check condition and highlight
-        if (chosenKey === q.correct) {
-            chosenLabel.classList.add('correct-pick');
-            score += Number(q.marks);
-        } else {
-            chosenLabel.classList.add('incorrect-pick');
-            if(correctLabel) correctLabel.classList.add('correct-pick'); // expose real correct one
-        }
+        if (chosenKey === q.correct) { chosenLabel.classList.add('correct-pick'); currentModuleScore += Number(q.marks); } 
+        else { chosenLabel.classList.add('incorrect-pick'); if(correctLabel) correctLabel.classList.add('correct-pick'); }
         
-        // Show explanation drop down seamlessly
         const feedback = document.getElementById('liveFeedback');
-        feedback.innerHTML = `🌟 <strong>Answer Details:</strong><br><p style="margin: 8px 0 0 0;">${q.explanation}</p>`;
+        feedback.innerHTML = `🌟 <strong>THE FACTS:</strong><br><p style="margin: 8px 0 0 0;">${q.explanation}</p>`;
         feedback.classList.remove('hidden');
         
-        // Reveal next progression stepping block
         const nextBtn = document.getElementById('nextBtn');
-        if (currentIdx === questionsData.length - 1) {
-            nextBtn.innerText = 'FINISH & CALCULATE SCORE 🏁';
-        }
+        nextBtn.innerText = (activeQIdx === currentModuleQuestions.length - 1) ? 'CLEAR STAGE ✅' : 'NEXT ➡️';
         nextBtn.classList.remove('hidden');
     }
 
     function nextQuestion() {
-        if (currentIdx < questionsData.length - 1) {
-            currentIdx++;
-            showQuestion(currentIdx);
-        } else {
-            finishQuiz();
-        }
+        if (activeQIdx < currentModuleQuestions.length - 1) { activeQIdx++; showQuestion(); } 
+        else { finishModule(); }
     }
 
-    function finishQuiz() {
+    function finishModule() {
         clearInterval(timerInterval);
-        document.getElementById('nextBtn').innerText = 'Syncing Score...';
-        document.getElementById('nextBtn').disabled = true;
+        
+        // Save just this module to backend and local history
+        state.moduleHistory[state.activeModule] = { score: currentModuleScore, time: activeModuleTime };
+        const payload = { action: 'submitModule', ...state.user, moduleNumber: state.activeModule, moduleScore: currentModuleScore, moduleTime: activeModuleTime };
+        
+        state.highestUnlocked++;
+        state.activeModule = state.highestUnlocked <= TOTAL_MODULES ? state.highestUnlocked : TOTAL_MODULES;
+        localStorage.setItem('paintVitaState', JSON.stringify(state));
 
-        const payload = {
-            action: 'submitQuiz',
-            name: document.getElementById('name').value, email: document.getElementById('email').value,
-            empId: document.getElementById('empId').value, ecStore: document.getElementById('ecStore').value,
-            score: score, timeTaken: timeTaken
-        };
+        document.getElementById('quizView').classList.add('hidden');
+        document.getElementById('syncView').classList.remove('hidden');
+        document.getElementById('syncMsg').innerText = "Uploading to Mainframe...";
+        document.getElementById('continueBtn').classList.add('hidden');
+        document.getElementById('finishBtn').classList.add('hidden');
 
         fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-        }).then(res => res.json())
-        .then(() => {
-            document.getElementById('quizSection').classList.add('hidden');
-            document.getElementById('scoreDisplay').innerHTML = `You secured <strong style="color:#39ff14;">${score} points</strong><br> within <strong style="color:#00d2ff;">${timeTaken} seconds</strong>!`;
-            document.getElementById('resultSection').classList.remove('hidden');
-        }).catch(() => alert("Saved offline or network error occurred during transit!"));
+            method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+        }).then(res => res.json()).then(() => {
+            document.getElementById('syncMsg').innerText = `SAVED! Module ${payload.moduleNumber} complete.`;
+            if(state.highestUnlocked <= TOTAL_MODULES) document.getElementById('continueBtn').classList.remove('hidden');
+            else document.getElementById('finishBtn').classList.remove('hidden');
+        });
     }
+
+    function returnToDashboard() { loadDashboard(); }
 </script>
 </body>
 </html>
