@@ -3,85 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PaintVita Highscores</title>
+    <title>🎸 PaintVita Hall of Fame 🎸</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap');
-        * { box-sizing: border-box; font-family: 'Quicksand', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@500;700&display=swap');
+        * { box-sizing: border-box; }
+        body { background-color: #ff007f; background-image: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(0,0,0,0.1) 20px, rgba(0,0,0,0.1) 40px); font-family: 'Space Grotesk', sans-serif; color: #000; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; margin: 0; }
+        .funky-panel { width: 100%; max-width: 900px; background: #fff; border: 6px solid #000; border-radius: 16px; padding: 40px 30px; box-shadow: 15px 15px 0px #000; text-align: center; }
+        h2 { font-family: 'Bangers', cursive; font-size: 4rem; margin-top: 0; margin-bottom: 20px; color: #fff800; -webkit-text-stroke: 3px #000; text-shadow: 8px 8px 0px #00d2ff; letter-spacing: 3px; }
         
-        body { background: linear-gradient(135deg, #0f0c20 0%, #15102a 40%, #03001e 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; margin: 0; }
-        .container { width: 100%; max-width: 850px; background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(16px); border: 2px solid rgba(255, 255, 255, 0.1); padding: 40px 30px; border-radius: 24px; text-align: center; color: #fff; }
-        h2 { font-family: 'Fredoka One', cursive; font-size: 2.5rem; margin-top: 0; background: linear-gradient(45deg, #39ff14, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .filter-box { background: #eee; padding: 15px; border: 4px solid #000; border-radius: 12px; margin-bottom: 20px; text-align: left; font-weight: bold; font-size: 1.2rem; }
+        select { padding: 10px; font-family: 'Bangers', cursive; font-size: 1.5rem; border: 3px solid #000; border-radius: 8px; margin-left: 10px; cursor: pointer; box-shadow: 4px 4px 0 #000; }
+        select:focus { outline: none; background: #fff800; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: left; background: #fff; border: 4px solid #000; box-shadow: 8px 8px 0px #000; font-size: 1.1rem; }
+        th, td { padding: 18px 15px; border-bottom: 3px solid #000; }
+        th { background: #00d2ff; color: #000; font-family: 'Bangers', cursive; font-size: 1.5rem; letter-spacing: 1px; border-bottom: 5px solid #000;}
+        td { font-weight: 700; border-right: 3px solid #000; }
+        td:last-child { border-right: none; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 25px; text-align: left; background: rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden; }
-        th, td { padding: 15px 15px; }
-        th { background: rgba(255, 255, 255, 0.1); color: #ff007f; text-transform: uppercase; font-weight: 700; font-size: 0.9em; letter-spacing: 1px;}
-        td { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        tr.rank-0 { background: #fff800; font-size: 1.25rem; }
+        tr.rank-1 { background: #e0e0e0; font-size: 1.15rem; }
+        tr.rank-2 { background: #ffa07a; font-size: 1.15rem; }
         
-        tr.rank-0 { background: rgba(255, 215, 0, 0.15); color: #ffd700; font-weight: bold; }
-        tr.rank-1 { background: rgba(192, 192, 192, 0.15); color: #c0c0c0; font-weight: bold; }
-        tr.rank-2 { background: rgba(205, 127, 50, 0.15); color: #cd7f32; font-weight: bold; }
-        
-        button { background: rgba(255,255,255,0.1); border: 2px solid #fff; color: white; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-size: 1rem; font-weight: bold; margin-top: 25px; transition: 0.2s; }
-        button:hover { background: #fff; color: #000; }
-        .loader { font-size: 1.2rem; color: #39ff14; margin: 30px 0; font-weight: bold; }
+        button.action-btn { background: #39ff14; color: #fff; font-family: 'Bangers', cursive; font-size: 1.8rem; letter-spacing: 2px; padding: 15px 30px; border: 4px solid #000; border-radius: 12px; box-shadow: 8px 8px 0px #000; cursor: pointer; transition: all 0.1s; display: inline-block; margin-top: 35px; -webkit-text-stroke: 1px #000; }
+        button.action-btn:hover { background: #00d2ff; }
+        button.action-btn:active { transform: translate(8px, 8px); box-shadow: 0px 0px 0px #000; }
+        .loader { font-family: 'Bangers'; font-size: 2.5rem; color: #fff; -webkit-text-stroke: 2px #000; text-shadow: 4px 4px 0px #000; margin: 30px 0; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>🏆 Session Leaderboard 🏆</h2>
-    <div id="loader" class="loader">Gathering Live Session Metrics...</div>
+<div class="funky-panel">
+    <h2>🏆 HALL OF FAME 🏆</h2>
+    
+    <div class="filter-box">
+        <label for="viewSelect">Select View:</label>
+        <select id="viewSelect" onchange="renderTable()">
+            <option value="overall">🌟 Overall Combined Standings</option>
+            <option value="1">Stage 1</option>
+            <option value="2">Stage 2</option>
+            <option value="3">Stage 3</option>
+            <option value="4">Stage 4</option>
+            <option value="5">Stage 5</option>
+            <option value="6">Stage 6</option>
+            <option value="7">Stage 7</option>
+            <option value="8">Stage 8</option>
+            <option value="9">Stage 9</option>
+            <option value="10">Stage 10</option>
+            <option value="11">Stage 11</option>
+            <option value="12">Stage 12</option>
+        </select>
+    </div>
+
+    <div id="loader" class="loader">FETCHING HIGHSCORES...</div>
+    
     <table id="leaderboardTable" style="display: none;">
         <thead>
-            <tr>
-                <th>Rank</th>
-                <th>Player</th>
-                <th>Modules Cleared</th>
-                <th>Score</th>
-                <th>Time Taken</th>
-            </tr>
+            <tr id="tableHeaders"></tr>
         </thead>
         <tbody id="leaderboardBody"></tbody>
     </table>
-    <button onclick="window.location.href='quiz.html'">🔙 RETURN TO DASHBOARD</button>
+    
+    <button class="action-btn" onclick="window.location.href='quiz.html'">🔙 BACK TO DASHBOARD</button>
 </div>
 
 <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbySBiTn1HngO8asovRHlM54WGLxCWv0V0IfHylyF-15uI0uy98MSlTCKq4kUtNVlfs21g/exec';
+    let rawData = [];
 
     window.onload = () => {
         fetch(SCRIPT_URL + '?action=getLeaderboard')
             .then(res => res.json())
             .then(data => {
+                rawData = data;
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('leaderboardTable').style.display = 'table';
-                
-                const tbody = document.getElementById('leaderboardBody');
-                if(data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; opacity:0.6;">Training just started! Waiting for scores.</td></tr>`;
-                    return;
-                }
-                
-                data.forEach((entry, index) => {
-                    const tr = document.createElement('tr');
-                    if(index < 3) tr.className = `rank-${index}`;
-                    
-                    let medal = index + 1;
-                    if(index === 0) medal = '🥇 1st';
-                    if(index === 1) medal = '🥈 2nd';
-                    if(index === 2) medal = '🥉 3rd';
-
-                    tr.innerHTML = `
-                        <td>${medal}</td>
-                        <td>${entry.name}</td>
-                        <td style="text-align:center;"><strong>${entry.modulesCompleted}/12</strong></td>
-                        <td><span style="color:#39ff14; font-weight:bold;">${entry.score}</span> pts</td>
-                        <td>${entry.timeTaken}s</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }).catch(() => { document.getElementById('loader').innerText = "Failed to pull live scores."; });
+                renderTable();
+            }).catch(() => { document.getElementById('loader').innerText = "ERROR FETCHING SCORES."; });
     };
+
+    function renderTable() {
+        const view = document.getElementById('viewSelect').value;
+        const headers = document.getElementById('tableHeaders');
+        const tbody = document.getElementById('leaderboardBody');
+        tbody.innerHTML = '';
+        
+        let filteredData = [];
+
+        if(view === 'overall') {
+            headers.innerHTML = `<th>Rank</th><th>Player</th><th style="text-align: center;">Stages</th><th>Total Score</th><th>Speed</th>`;
+            filteredData = [...rawData].sort((a, b) => b.totalScore !== a.totalScore ? b.totalScore - a.totalScore : a.totalTime - b.totalTime);
+        } else {
+            headers.innerHTML = `<th>Rank</th><th>Player</th><th>Stage ${view} Score</th><th>Stage ${view} Speed</th>`;
+            const modId = parseInt(view);
+            const playersWithMod = rawData.filter(u => u.moduleData && u.moduleData[modId]);
+            filteredData = playersWithMod.sort((a, b) => {
+                const sB = b.moduleData[modId].score; const sA = a.moduleData[modId].score;
+                const tB = b.moduleData[modId].time; const tA = a.moduleData[modId].time;
+                return sB !== sA ? sB - sA : tA - tB;
+            });
+        }
+
+        if(filteredData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; font-style:italic;">No data recorded for this view yet.</td></tr>`;
+            return;
+        }
+
+        filteredData.forEach((entry, index) => {
+            const tr = document.createElement('tr');
+            if(index < 3) tr.className = `rank-${index}`;
+            
+            let medal = index + 1;
+            if(index === 0) medal = '🥇 1st';
+            if(index === 1) medal = '🥈 2nd';
+            if(index === 2) medal = '🥉 3rd';
+
+            if(view === 'overall') {
+                tr.innerHTML = `
+                    <td>${medal}</td>
+                    <td style="text-transform: uppercase;">${entry.name}</td>
+                    <td style="text-align:center; font-family: 'Bangers'; font-size: 1.5rem; color: #ff007f; -webkit-text-stroke: 1px #000;">${entry.modulesCompleted} / 12</td>
+                    <td style="font-family: 'Bangers'; font-size: 1.5rem;">${entry.totalScore} pts</td>
+                    <td>${entry.totalTime}s</td>
+                `;
+            } else {
+                const mod = entry.moduleData[parseInt(view)];
+                tr.innerHTML = `
+                    <td>${medal}</td>
+                    <td style="text-transform: uppercase;">${entry.name}</td>
+                    <td style="font-family: 'Bangers'; font-size: 1.5rem; color: #ff007f; -webkit-text-stroke: 1px #000;">${mod.score} pts</td>
+                    <td>${mod.time}s</td>
+                `;
+            }
+            tbody.appendChild(tr);
+        });
+    }
 </script>
 </body>
 </html>
