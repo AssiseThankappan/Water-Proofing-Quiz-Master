@@ -3,85 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎸 Water Proofing Arcade 🎸</title>
+    <title>💦 HydroHustle | Waterproofing</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Space+Grotesk:wght@500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Righteous&display=swap');
         * { box-sizing: border-box; }
-        body { background-color: #7928ca; background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.1) 20px, rgba(255,255,255,0.1) 40px); font-family: 'Space Grotesk', sans-serif; color: #000; min-height: 100vh; margin: 0; padding: 20px; display: flex; align-items: center; justify-content: center; }
-        .funky-panel { background: #fff; border: 5px solid #000; border-radius: 16px; box-shadow: 12px 12px 0px #000; padding: 35px; position: relative; }
-        .dashboard { display: flex; width: 100%; max-width: 1050px; gap: 40px; }
-        @media(max-width: 768px) { .dashboard { flex-direction: column; } }
-        .sidebar { flex: 0 0 260px; display: flex; flex-direction: column; gap: 12px; background: #f4f4f4; }
+        
+        body { 
+            background: #0A0F1C;
+            background-image: radial-gradient(circle at 15% 50%, rgba(0, 229, 255, 0.1), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(57, 255, 20, 0.05), transparent 25%);
+            font-family: 'Outfit', sans-serif; color: #fff; min-height: 100vh; margin: 0; padding: 20px; 
+            display: flex; align-items: center; justify-content: center; overflow-x: hidden;
+        }
+
+        .slick-panel { 
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; box-shadow: 0 30px 60px rgba(0,0,0,0.6); 
+            padding: 40px; position: relative;
+        }
+
+        .dashboard { display: flex; width: 100%; max-width: 1100px; gap: 40px; }
+        @media(max-width: 768px) { .dashboard { flex-direction: column; } .slick-panel { padding: 25px; } }
+
+        .sidebar { flex: 0 0 280px; display: flex; flex-direction: column; gap: 15px; }
         .main-area { flex: 1; }
         .hidden { display: none !important; }
-        h2 { font-family: 'Bangers', cursive; text-align: center; font-size: 3.5rem; margin-top: 0; color: #39ff14; -webkit-text-stroke: 2px #000; text-shadow: 6px 6px 0px #ff007f; letter-spacing: 3px; }
-        .sidebar h3 { font-family: 'Bangers', cursive; font-size: 2.2rem; color: #00d2ff; text-align: center; -webkit-text-stroke: 1.5px #000; text-shadow: 4px 4px 0px #000; margin-top: 0; letter-spacing: 2px; }
+        
+        h2 { 
+            font-family: 'Righteous', cursive; text-align: center; font-size: 3rem; margin-top: 0; 
+            background: linear-gradient(90deg, #00E5FF, #39FF14); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .sidebar h3 { font-family: 'Righteous', cursive; font-size: 1.8rem; color: #fff; text-align: left; margin-top: 0; letter-spacing: 1px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+
+        /* Modern Forms */
         .form-group { margin-bottom: 25px; }
-        .form-group label { display: block; margin-bottom: 8px; font-family: 'Bangers', cursive; font-size: 1.6rem; color: #ff007f; letter-spacing: 1px; -webkit-text-stroke: 1px #000;}
-        .form-group input { width: 100%; padding: 15px; border: 4px solid #000; border-radius: 10px; font-family: 'Space Grotesk'; font-size: 1.1rem; box-shadow: 5px 5px 0px #000; font-weight: bold; transition: 0.2s; }
-        .form-group input:focus { outline: none; background: #fff800; transform: translate(-2px, -2px); box-shadow: 7px 7px 0px #000; }
-        button.action-btn { background: #ff007f; color: #fff; font-family: 'Bangers', cursive; font-size: 2rem; letter-spacing: 2px; padding: 15px 30px; border: 4px solid #000; border-radius: 12px; box-shadow: 8px 8px 0px #000; cursor: pointer; transition: all 0.1s; width: 100%; -webkit-text-stroke: 1px #000; text-transform: uppercase; margin-top: 20px; }
-        button.action-btn:hover { background: #00d2ff; }
-        button.action-btn:active:not(:disabled) { transform: translate(8px, 8px); box-shadow: 0px 0px 0px #000; }
-        .module-btn { padding: 14px; border: 3px solid #000; border-radius: 10px; font-weight: 900; font-size: 1.1rem; cursor: pointer; display: flex; justify-content: space-between; box-shadow: 4px 4px 0px #000; background: #fff; transition: all 0.1s; }
-        .module-btn.locked { background: #ddd; box-shadow: none; transform: translate(4px, 4px); pointer-events: none; color: #888; border-color: #888;}
-        .module-btn.unlocked { background: #39ff14; animation: pulseGlow 1.5s infinite alternate; }
-        .module-btn.completed { background: #00d2ff; }
-        .module-btn.active { background: #ff007f; color: #fff; text-shadow: 1px 1px 0 #000; }
-        @keyframes pulseGlow { from { transform: scale(1); } to { transform: scale(1.02); box-shadow: 6px 6px 0px #000; } }
-        .option-item { display: block; margin-bottom: 15px; padding: 18px; border: 4px solid #000; border-radius: 12px; background: #fff; box-shadow: 6px 6px 0px #000; cursor: pointer; font-weight: bold; font-size: 1.15rem; transition: all 0.1s; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: #00E5FF; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;}
+        .form-group input { 
+            width: 100%; padding: 16px; background: rgba(0,0,0,0.4); border: 2px solid rgba(0, 229, 255, 0.3); 
+            border-radius: 12px; color: #fff; font-family: 'Outfit'; font-size: 1.1rem; transition: 0.3s ease; 
+        }
+        .form-group input:focus { outline: none; border-color: #00E5FF; box-shadow: 0 0 15px rgba(0, 229, 255, 0.4); background: rgba(0,0,0,0.6); }
+
+        /* Hype Buttons */
+        button.action-btn { 
+            background: linear-gradient(135deg, #00E5FF, #0077FF); color: #fff; font-family: 'Righteous', cursive; font-size: 1.5rem; 
+            letter-spacing: 2px; padding: 18px 30px; border: none; border-radius: 100px; box-shadow: 0 10px 20px rgba(0, 229, 255, 0.3); 
+            cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 100%; text-transform: uppercase; margin-top: 20px;
+        }
+        button.action-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(0, 229, 255, 0.5); }
+        button.action-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 5px 10px rgba(0, 229, 255, 0.3); }
+
+        /* Sidebar Modules */
+        .module-btn { 
+            padding: 16px 20px; border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; font-weight: 700; font-size: 1.1rem; 
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); transition: all 0.3s; 
+        }
+        .module-btn.locked { opacity: 0.4; pointer-events: none; }
+        .module-btn.unlocked { border-color: #00E5FF; box-shadow: 0 0 15px rgba(0, 229, 255, 0.1); }
+        .module-btn.completed { background: rgba(57, 255, 20, 0.1); border-color: rgba(57, 255, 20, 0.3); color: #39FF14;}
+        .module-btn.active { background: #00E5FF; color: #000; box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); border-color: transparent;}
+
+        /* Quiz UI */
+        .option-item { 
+            display: block; margin-bottom: 15px; padding: 20px; border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; 
+            background: rgba(255,255,255,0.02); cursor: pointer; font-weight: 400; font-size: 1.15rem; transition: all 0.2s ease; 
+        }
         .option-item input { display: none; }
-        .option-item:hover:not(.disabled) { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px #000; background: #e0f7fa; }
-        .option-item.correct-pick { background: #39ff14; box-shadow: 0 0 0 #000; transform: translate(6px, 6px); border-color: #000; }
-        .option-item.incorrect-pick { background: #ff0055; color: #fff; box-shadow: 0 0 0 #000; transform: translate(6px, 6px); }
+        .option-item:hover:not(.disabled) { border-color: #00E5FF; background: rgba(0, 229, 255, 0.05); transform: translateX(5px); }
+        
+        .option-item.correct-pick { background: rgba(57, 255, 20, 0.15); border-color: #39FF14; color: #39FF14; font-weight: 700; box-shadow: 0 0 20px rgba(57,255,20,0.2);}
+        .option-item.incorrect-pick { background: rgba(255, 51, 102, 0.15); border-color: #FF3366; color: #FF3366; }
         .option-item.disabled { pointer-events: none; }
-        .explanation { margin-top: 25px; background: #fff800; border: 4px dashed #000; padding: 20px; font-weight: bold; border-radius: 12px; box-shadow: 6px 6px 0px #000; font-size: 1.1rem; }
-        .metrics-bar { display: flex; justify-content: space-between; font-family: 'Bangers', cursive; font-size: 1.8rem; color: #000; margin-bottom: 25px; letter-spacing: 1px;}
-        .badge { background: #000; color: #fff; padding: 5px 15px; border-radius: 8px; border: 3px solid #00d2ff; }
-        .loader { font-family: 'Bangers'; text-align: center; font-size: 3rem; color: #fff; -webkit-text-stroke: 2px #000; text-shadow: 5px 5px 0px #ff007f; }
+
+        .explanation { 
+            margin-top: 25px; background: rgba(0, 229, 255, 0.1); border-left: 4px solid #00E5FF; 
+            padding: 20px; font-weight: 400; border-radius: 0 12px 12px 0; font-size: 1.1rem; line-height: 1.6;
+        }
+        
+        .metrics-bar { display: flex; justify-content: space-between; font-family: 'Righteous', cursive; font-size: 1.5rem; color: #00E5FF; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;}
+        .loader { font-family: 'Righteous'; text-align: center; font-size: 2.5rem; color: #00E5FF; animation: pulse 1.5s infinite alternate; }
+        
+        @keyframes pulse { from { opacity: 0.5; } to { opacity: 1; text-shadow: 0 0 20px #00E5FF; } }
     </style>
 </head>
 <body>
 
-<div id="loader" class="loader">🎸 TUNING THE GUITARS...</div>
+<div id="loader" class="loader">INITIALIZING SYSTEM...</div>
 
-<div id="registrationScreen" class="funky-panel hidden" style="width: 100%; max-width: 550px;">
-    <h2>PLAYER 1 START</h2>
-    <p style="text-align: center; font-weight: bold; font-size: 1.2rem; margin-bottom: 30px;">Insert credentials to join the arcade.</p>
-    <div class="form-group"><label>Name</label><input type="text" id="name" required></div>
-    <div class="form-group"><label>Official Email</label><input type="email" id="email" required></div>
-    <div class="form-group"><label>Employee ID</label><input type="text" id="empId" required></div>
-    <div class="form-group"><label>EC Store</label><input type="text" id="ecStore" required></div>
-    <button class="action-btn" onclick="registerUser()">INSERT COIN 🪙</button>
+<div id="registrationScreen" class="slick-panel hidden" style="width: 100%; max-width: 550px;">
+    <h2>HYDRO HUSTLE</h2>
+    <p style="text-align: center; color: #8892B0; margin-bottom: 35px; font-size: 1.1rem;">Waterproofing Session — Lock in your details to begin.</p>
+    <div class="form-group"><label>Name</label><input type="text" id="name" required placeholder="First & Last Name"></div>
+    <div class="form-group"><label>Official Email</label><input type="email" id="email" required placeholder="name@company.com"></div>
+    <div class="form-group"><label>Employee ID</label><input type="text" id="empId" required placeholder="EMP-001"></div>
+    <div class="form-group"><label>EC Store</label><input type="text" id="ecStore" required placeholder="Your Base"></div>
+    <button class="action-btn" onclick="registerUser()">ENTER THE ZONE 🌊</button>
 </div>
 
 <div id="dashboardScreen" class="dashboard hidden">
-    <div class="sidebar funky-panel" id="sidebarContainer"></div>
+    <div class="sidebar slick-panel" id="sidebarContainer"></div>
 
-    <div class="main-area funky-panel">
+    <div class="main-area slick-panel">
+        
         <div id="moduleIntro">
-            <h2 id="moduleTitle">STAGE READY</h2>
-            <div style="text-align:center; margin-bottom: 30px; font-size: 1.3rem; font-weight: bold; background: #eee; padding: 15px; border: 4px solid #000; border-radius: 12px;">
-                TOTAL SCORE: <span style="color:#ff007f; font-size: 1.8rem; font-family: 'Bangers';" id="cumulScoreDisplay">0</span> <br>
-                TOTAL TIME: <span style="color:#00d2ff; font-size: 1.8rem; font-family: 'Bangers';" id="cumulTimeDisplay">0s</span>
+            <h2 id="moduleTitle">MODULE READY</h2>
+            <div style="text-align:center; margin: 40px 0; padding: 25px; background: rgba(0,0,0,0.4); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
+                <div style="font-size: 1.1rem; color: #8892B0; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Session Stats</div>
+                TOTAL SCORE: <span style="color:#39FF14; font-size: 2.2rem; font-family: 'Righteous'; margin-right: 20px;" id="cumulScoreDisplay">0</span>
+                TIME: <span style="color:#00E5FF; font-size: 2.2rem; font-family: 'Righteous';" id="cumulTimeDisplay">0s</span>
             </div>
-            <button class="action-btn" onclick="startActiveModule()">FIGHT! 💥</button>
+            <button class="action-btn" onclick="startActiveModule()">START MODULE ⚡</button>
         </div>
 
         <div id="quizView" class="hidden">
             <div class="metrics-bar">
-                <span id="questionNumTracker" class="badge">Q 1/5</span>
-                <span id="moduleTimer" class="badge" style="border-color: #ff007f;">⏱️ 0s</span>
+                <span id="questionNumTracker">Q 1/5</span>
+                <span id="moduleTimer" style="color: #FF3366;">⏱️ 0s</span>
             </div>
             <div id="questionContainer"></div>
             <button id="nextBtn" class="action-btn hidden" onclick="nextQuestion()">NEXT ➡️</button>
         </div>
 
         <div id="syncView" class="hidden" style="text-align:center;">
-            <h2>STAGE CLEARED!</h2>
-            <p id="syncMsg" style="font-weight: bold; font-size: 1.4rem; background: #fff800; padding: 15px; border: 4px solid #000; border-radius: 12px; display: inline-block;">Saving to cartridge...</p><br>
-            <button id="continueBtn" class="action-btn hidden" onclick="returnToDashboard()">NEXT STAGE 🚀</button>
-            <button id="finishBtn" class="action-btn hidden" onclick="window.location.href='leaderboard.html'">VIEW HALL OF FAME 🏆</button>
+            <h2>MODULE CLEARED</h2>
+            <p id="syncMsg" style="color: #39FF14; font-size: 1.2rem; margin: 30px 0;">Syncing data to the mainframe...</p>
+            <button id="continueBtn" class="action-btn hidden" onclick="returnToDashboard()">CONTINUE 🚀</button>
+            <button id="finishBtn" class="action-btn hidden" onclick="window.location.href='leaderboard.html'">VIEW LEADERBOARD 🏆</button>
         </div>
     </div>
 </div>
@@ -92,13 +140,14 @@
     let allQuestions = [], currentModuleQuestions = [], activeQIdx = 0;
     let timerInterval, sessionStartTime, activeModuleTime = 0, currentModuleScore = 0;
 
+    // Renamed local storage key to fit new theme and avoid conflicts
     let state = { user: { name: '', email: '', empId: '', ecStore: '' }, highestUnlocked: 1, activeModule: 1, moduleHistory: {} };
 
     window.onload = () => {
         fetch(SCRIPT_URL + '?action=getQuestions').then(res => res.json()).then(data => {
             allQuestions = data;
             document.getElementById('loader').classList.add('hidden');
-            const savedState = localStorage.getItem('paintVitaState');
+            const savedState = localStorage.getItem('hydroState');
             if (savedState) {
                 state = JSON.parse(savedState);
                 if(!state.moduleHistory) state.moduleHistory = {}; 
@@ -110,9 +159,9 @@
 
     function registerUser() {
         const ids = ['name', 'email', 'empId', 'ecStore'];
-        for(let id of ids) { if(!document.getElementById(id).value.trim()) return alert("Fill all details!"); }
+        for(let id of ids) { if(!document.getElementById(id).value.trim()) return alert("Fill all details to proceed."); }
         state.user = { name: document.getElementById('name').value, email: document.getElementById('email').value, empId: document.getElementById('empId').value, ecStore: document.getElementById('ecStore').value };
-        localStorage.setItem('paintVitaState', JSON.stringify(state));
+        localStorage.setItem('hydroState', JSON.stringify(state));
         document.getElementById('registrationScreen').classList.add('hidden');
         loadDashboard();
     }
@@ -134,10 +183,10 @@
         document.getElementById('cumulTimeDisplay').innerText = totals.tt + 's';
         
         if(state.highestUnlocked > TOTAL_MODULES) {
-            document.getElementById('moduleTitle').innerText = "GAME BEATEN!";
+            document.getElementById('moduleTitle').innerText = "SESSION COMPLETE";
             document.querySelector('#moduleIntro button').style.display = 'none';
         } else {
-            document.getElementById('moduleTitle').innerText = `STAGE ${state.activeModule}`;
+            document.getElementById('moduleTitle').innerText = `MODULE ${state.activeModule}`;
             document.querySelector('#moduleIntro button').style.display = 'block';
         }
         renderSidebar();
@@ -145,20 +194,20 @@
 
     function renderSidebar() {
         const container = document.getElementById('sidebarContainer');
-        container.innerHTML = `<h3>MISSIONS</h3>`;
+        container.innerHTML = `<h3>MODULES</h3>`;
         for(let i = 1; i <= TOTAL_MODULES; i++) {
             const btn = document.createElement('div');
             btn.className = `module-btn ${i < state.highestUnlocked ? 'completed' : i === state.highestUnlocked ? 'unlocked' : 'locked'}`;
             if(i === state.activeModule && i <= state.highestUnlocked) btn.classList.add('active');
-            let icon = '🔒'; if(i < state.highestUnlocked) icon = '✔️'; else if(i === state.highestUnlocked) icon = '🔥';
-            btn.innerHTML = `<span>Module ${i}</span> <span>${icon}</span>`;
+            let icon = '🔒'; if(i < state.highestUnlocked) icon = '✔️'; else if(i === state.highestUnlocked) icon = '⚡';
+            btn.innerHTML = `<span>Mod ${i}</span> <span>${icon}</span>`;
             container.appendChild(btn);
         }
     }
 
     function startActiveModule() {
         currentModuleQuestions = allQuestions.filter(q => q.module === state.activeModule);
-        if(currentModuleQuestions.length === 0) return alert("Error: No questions found for this module!");
+        if(currentModuleQuestions.length === 0) return alert("Error: Questions pending for this module.");
 
         activeQIdx = 0; activeModuleTime = 0; currentModuleScore = 0;
         document.getElementById('moduleIntro').classList.add('hidden');
@@ -174,16 +223,16 @@
 
     function showQuestion() {
         document.getElementById('nextBtn').classList.add('hidden');
-        document.getElementById('questionNumTracker').innerText = `Q ${activeQIdx + 1}/${currentModuleQuestions.length}`;
+        document.getElementById('questionNumTracker').innerText = `Q ${activeQIdx + 1} / ${currentModuleQuestions.length}`;
         const q = currentModuleQuestions[activeQIdx];
         
         let opts = '';
         for (const [key, value] of Object.entries(q.options)) {
-            if (value) opts += `<label class="option-item" id="label_${key.replace(' ', '')}" onclick="selectAnswer('${key}')"><input type="radio" name="quizOpt" value="${key}"> <strong>${key.replace('Option ', '')}:</strong> ${value}</label>`;
+            if (value) opts += `<label class="option-item" id="label_${key.replace(' ', '')}" onclick="selectAnswer('${key}')"><input type="radio" name="quizOpt" value="${key}"> <strong style="color:#00E5FF;">${key.replace('Option ', '')}</strong> &nbsp; ${value}</label>`;
         }
 
         document.getElementById('questionContainer').innerHTML = `
-            <p style="font-size: 1.4rem; font-weight: 900; margin-bottom: 25px;">${q.text}</p>
+            <p style="font-size: 1.4rem; font-weight: 700; margin-bottom: 30px; line-height: 1.4;">${q.text}</p>
             <div>${opts}</div>
             <div id="liveFeedback" class="explanation hidden"></div>
         `;
@@ -200,11 +249,11 @@
         else { chosenLabel.classList.add('incorrect-pick'); if(correctLabel) correctLabel.classList.add('correct-pick'); }
         
         const feedback = document.getElementById('liveFeedback');
-        feedback.innerHTML = `🌟 <strong>THE FACTS:</strong><br><p style="margin: 8px 0 0 0;">${q.explanation}</p>`;
+        feedback.innerHTML = `<strong style="color:#00E5FF;">KNOWLEDGE DROP:</strong><br><p style="margin: 8px 0 0 0; font-size: 1rem;">${q.explanation}</p>`;
         feedback.classList.remove('hidden');
         
         const nextBtn = document.getElementById('nextBtn');
-        nextBtn.innerText = (activeQIdx === currentModuleQuestions.length - 1) ? 'CLEAR STAGE ✅' : 'NEXT ➡️';
+        nextBtn.innerText = (activeQIdx === currentModuleQuestions.length - 1) ? 'FINISH MODULE ✅' : 'NEXT ➡️';
         nextBtn.classList.remove('hidden');
     }
 
@@ -216,24 +265,23 @@
     function finishModule() {
         clearInterval(timerInterval);
         
-        // Save just this module to backend and local history
         state.moduleHistory[state.activeModule] = { score: currentModuleScore, time: activeModuleTime };
         const payload = { action: 'submitModule', ...state.user, moduleNumber: state.activeModule, moduleScore: currentModuleScore, moduleTime: activeModuleTime };
         
         state.highestUnlocked++;
         state.activeModule = state.highestUnlocked <= TOTAL_MODULES ? state.highestUnlocked : TOTAL_MODULES;
-        localStorage.setItem('paintVitaState', JSON.stringify(state));
+        localStorage.setItem('hydroState', JSON.stringify(state));
 
         document.getElementById('quizView').classList.add('hidden');
         document.getElementById('syncView').classList.remove('hidden');
-        document.getElementById('syncMsg').innerText = "Uploading to Mainframe...";
+        document.getElementById('syncMsg').innerText = "Uploading data...";
         document.getElementById('continueBtn').classList.add('hidden');
         document.getElementById('finishBtn').classList.add('hidden');
 
         fetch(SCRIPT_URL, {
             method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' }
         }).then(res => res.json()).then(() => {
-            document.getElementById('syncMsg').innerText = `SAVED! Module ${payload.moduleNumber} complete.`;
+            document.getElementById('syncMsg').innerText = `DATA SYNCED. Module ${payload.moduleNumber} verified.`;
             if(state.highestUnlocked <= TOTAL_MODULES) document.getElementById('continueBtn').classList.remove('hidden');
             else document.getElementById('finishBtn').classList.remove('hidden');
         });
